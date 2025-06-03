@@ -19,7 +19,7 @@ Autofil Extensions adalah ekstensi browser yang memudahkan pengguna dalam mengis
 - **JavaScript (Vanilla/ES6+)**
 - **WebExtension API**
 - **Local Storage / IndexedDB**
-- **CryptoJS** – untuk enkripsi data lokal
+- **Vite** – 
 - **Manifest V3** – kompatibel dengan versi terbaru Chrome
 
 🔐 Catatan Keamanan
