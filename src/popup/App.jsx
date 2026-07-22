@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { useProfiles } from "@hooks/userProfile";
+import { useSettings } from '@hooks/useSettings';
 import { Header } from "@components/Header/Header";
 import { AutofillForm } from "@feature/Autofill/AutofillForm";
 import { ManageProfiles } from "@feature/ManageProfiles/ManageProfiles";
+import { SettingsForm } from '@feature/SettingForm/SettingForm';
 import "@styles/extension.css";
 
 function App() {
   const [activeTab, setActiveTab] = useState('autofill');
-  
+  const { selectors, saveSelectors } = useSettings();
   const { 
     rawProfiles, 
     profileKeys, 
@@ -34,6 +36,12 @@ function App() {
         >
           Manage Profiles
         </button>
+        <button 
+          className={`tab-button ${activeTab === 'settings' ? 'active' : ''}`}
+          onClick={() => setActiveTab('settings')}
+        >
+          Settings
+        </button>
       </div>
 
       {activeTab === 'autofill' && (
@@ -41,6 +49,7 @@ function App() {
           profiles={rawProfiles} 
           profileKeys={profileKeys} 
           onSave={saveProfile} 
+          selectors={selectors}
         />
       )}
 
@@ -50,6 +59,13 @@ function App() {
           onDelete={deleteProfile}
           onExport={exportProfiles}
           onImport={importProfiles}
+        />
+      )}
+
+      {activeTab === 'settings' && (
+        <SettingsForm 
+          initialSelectors={selectors} 
+          onSave={saveSelectors} 
         />
       )}
 

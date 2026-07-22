@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
 import { FormInput } from '../../components/ui/Input'; 
 
-export const AutofillForm = ({ profiles, profileKeys, onSave }) => {
+export const AutofillForm = ({ profiles, profileKeys, onSave, selectors }) => {
   const [userId, setUserId] = useState('');
   const [credentials, setCredentials] = useState({ corpId: '', userId: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
+
+  const [autoLogin, setAutoLogin] = useState(() => {
+    return localStorage.getItem('autofill_autoLogin') === 'true';
+  });
 
   useEffect(() => {
     if (userId && profiles[userId]) {
@@ -17,6 +21,12 @@ export const AutofillForm = ({ profiles, profileKeys, onSave }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCredentials({ ...credentials, [name]: value });
+  };
+
+  const handleAutoLoginChange = (e) => {
+    const isChecked = e.target.checked;
+    setAutoLogin(isChecked);
+    localStorage.setItem('autofill_autoLogin', isChecked);
   };
 
   const handleSaveClick = () => {
@@ -36,7 +46,14 @@ export const AutofillForm = ({ profiles, profileKeys, onSave }) => {
     const chromeRuntime = typeof globalThis !== 'undefined' ? globalThis.chrome?.runtime : undefined;
 
     if (chromeRuntime?.sendMessage) {
-      chromeRuntime.sendMessage({ action: 'autofill', payload: credentials });
+      chromeRuntime.sendMessage({ 
+        action: 'autofill', 
+        payload: credentials,
+        selectors: selectors,
+        autoLogin: autoLogin
+      }, () => {
+        console.log("Message sent successfully!");
+      });
       window.close();
     } else {
       console.error('chrome.runtime not available.');
@@ -83,6 +100,22 @@ export const AutofillForm = ({ profiles, profileKeys, onSave }) => {
         <span className="toggle-password" onClick={() => setShowPassword(!showPassword)}>
           {showPassword ? 'Hide' : 'Show'}
         </span>
+      </div>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '15px' }}>
+        <input
+          type="checkbox"
+          id="autoLoginCheck"
+          checked={autoLogin}
+          onChange={handleAutoLoginChange}
+          style={{ cursor: 'pointer', width: '16px', height: '16px' }}
+        />
+        <label 
+          htmlFor="autoLoginCheck" 
+          style={{ margin: 0, cursor: 'pointer', fontSize: '0.85rem', color: '#495057', userSelect: 'none' }}
+        >
+          Auto-Login (Submit form after autofill)
+        </label>
       </div>
 
       <div className="button-group">

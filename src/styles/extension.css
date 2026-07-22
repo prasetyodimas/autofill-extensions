@@ -4,7 +4,7 @@
 /* Base Container */
 .extension-container {
   padding: 15px;
-  width: 320px; /* Slightly wider for better breathing room */
+  width: 332px; 
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
 }
