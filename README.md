@@ -24,3 +24,43 @@ Autofil Extensions adalah ekstensi browser yang memudahkan pengguna dalam mengis
 
 🔐 Catatan Keamanan
 Autofil Extensions tidak mengirim data ke server mana pun. Semua data disimpan lokal dan dienkripsi di perangkat pengguna.
+
+
+#Architecture 
+
+src/
+├── assets/                  # Icons, images (icon.png)
+├── background/              # Chrome background scripts (service workers)
+├── popup/
+│   ├── main.jsx             # React entry point
+│   ├── App.jsx              # Main layout & Tab routing (High-level only)
+│   │
+│   ├── components/          # 🧩 UI & Feature Components
+│   │   ├── ui/              # 1. Design System (Dumb components, purely visual)
+│   │   │   ├── Button/
+│   │   │   │   ├── Button.jsx
+│   │   │   │   └── Button.css
+│   │   │   ├── Input/
+│   │   │   │   ├── Input.jsx
+│   │   │   │   └── Input.css
+│   │   │   ├── Tabs/
+│   │   │   │   ├── Tabs.jsx
+│   │   │   │   └── Tabs.css
+│   │   │   └── Header/
+│   │   │       └── Header.jsx
+│   │   │
+│   │   └── features/        # 2. Smart Components (Business logic & domain)
+│   │       ├── Autofill/
+│   │       │   └── AutofillForm.jsx
+│   │       └── ManageProfiles/
+│   │           ├── ManageProfiles.jsx
+│   │           └── ImportExport.jsx
+│   │
+│   ├── hooks/               # ⚙️ Logic Separation (SRP for state)
+│   │   └── useProfiles.js   # Custom hook handling localStorage, import, export
+│   │
+│   └── utils/               # 🛠️ Helpers
+│       └── chromeAPI.js     # Wrapper for chrome.runtime.sendMessage
+│
+└── styles/                  # 🎨 Global Styles ONLY
+    └── global.css           # CSS Reset, CSS variables (colors, spacing), fonts

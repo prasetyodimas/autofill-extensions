@@ -1,81 +1,130 @@
-.form-group {
-  margin-bottom: 1rem;
+@import '../styles/tabs/tabs_ui.css';
+
+/* Base Container */
+.extension-container {
+  padding: 15px;
+  width: 320px; /* Slightly wider for better breathing room */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
 }
 
+/* Typography & Spacing */
+label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #495057;
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+/* Inputs */
 .form-control {
   display: block;
-  width: 92%;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box; /* This fixes the 92% width hack */
+  padding: 0.45rem 0.75rem;
+  font-size: 0.9rem;
   line-height: 1.5;
   color: #495057;
-  background-color: #fff;
-  background-clip: padding-box;
+  background-color: #fcfcfc;
   border: 1px solid #ced4da;
-  border-radius: 5px;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
 }
 
 .form-control:focus {
-  color: #495057;
   background-color: #fff;
   border-color: #80bdff;
   outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+/* Password Toggle */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.toggle-password {
+  position: absolute;
+  bottom: 8px; /* Positioned relative to the bottom instead of top */
+  right: 12px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #007bff;
+  user-select: none;
+  background: transparent;
+}
+
+.toggle-password:hover {
+  text-decoration: underline;
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 15px;
 }
 
 .btn {
-  display: inline-block;
-  font-weight: 400;
-  color: #212529;
+  flex: 1; /* Makes buttons equal width */
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
   text-align: center;
-  vertical-align: middle;
   cursor: pointer;
-  background-color: transparent;
-  border: 1px solid transparent;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  border-radius: 0.25rem;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
 }
 
 .btn-primary {
   color: #fff;
   background-color: #007bff;
-  border-color: #007bff;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
 }
 
 .btn-primary:hover {
-  color: #fff;
-  background-color: #01468f;
-  border-color: #01468f;
+  background-color: #0056b3;
 }
 
 .btn-success {
   color: #fff;
-  background-color: #00c73c;
-  border-color: #00c73c;
+  background-color: #10b981; /* A slightly more modern green */
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
 }
 
 .btn-success:hover {
-  color: #fff;
-  background-color: #049e32;
-  border-color: #049e32;
+  background-color: #059669;
 }
 
-.password-wrapper {
-    position: relative;
-    width: 300px;
+/* Footer */
+.footer-text {
+  font-size: 0.75rem;
+  margin-top: 15px;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  color: #6c757d;
 }
 
-.toggle-password {
-    position: absolute;
-    top: 63%;
-    right: 10px;
-    transform: translateY(-50%);
-    cursor: pointer;
-    font-size: 14px;
-    color: #007bff;
-    user-select: none;
+.footer-text a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer-text a:hover {
+  text-decoration: underline;
 }

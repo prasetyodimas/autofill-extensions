@@ -1,0 +1,24 @@
+/* --- Import / Export Controls --- */
+.data-controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px dashed #ced4da;
+}
+
+.btn-outline {
+  flex: 1;
+  background-color: transparent;
+  color: #495057;
+  border: 1px solid #ced4da;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.5rem;
+}
+
+.btn-outline:hover {
+  background-color: #f8f9fa;
+  border-color: #adb5bd;
+  color: #212529;
+}
