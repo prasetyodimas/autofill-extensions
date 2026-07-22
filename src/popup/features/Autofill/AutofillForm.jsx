@@ -1,6 +1,5 @@
-/* global chrome */
 import { useState, useEffect } from 'react';
-import { FormInput } from '../../components/ui/Input/Input';
+import { FormInput } from '../../components/ui/Input'; 
 
 export const AutofillForm = ({ profiles, profileKeys, onSave }) => {
   const [userId, setUserId] = useState('');
@@ -34,8 +33,10 @@ export const AutofillForm = ({ profiles, profileKeys, onSave }) => {
       return;
     }
 
-    if (typeof chrome !== 'undefined' && chrome.runtime?.sendMessage) {
-      chrome.runtime.sendMessage({ action: 'autofill', payload: credentials });
+    const chromeRuntime = typeof globalThis !== 'undefined' ? globalThis.chrome?.runtime : undefined;
+
+    if (chromeRuntime?.sendMessage) {
+      chromeRuntime.sendMessage({ action: 'autofill', payload: credentials });
       window.close();
     } else {
       console.error('chrome.runtime not available.');
@@ -44,29 +45,27 @@ export const AutofillForm = ({ profiles, profileKeys, onSave }) => {
 
   return (
     <div className="tab-content">
+      
+      {/* --- ENHANCED COMBOBOX (Searchable Dropdown) --- */}
       <div className="form-group">
-        <label>Saved Profiles:</label>
-        <select
-          value={profileKeys.includes(userId) ? userId : ''}
-          onChange={(e) => setUserId(e.target.value)}
-          className="form-control"
-          style={{ marginBottom: '8px' }}
-        >
-          <option value="">-- Select a saved profile --</option>
-          {profileKeys.map((data) => (
-            <option key={data} value={data}>{data}</option>
-          ))}
-        </select>
-        
-        <label>Or Create New Profile ID:</label>
+        <label>Profile ID (Search or Create New):</label>
         <input
           type="text"
+          list="saved-profiles-list"
           value={userId}
-          placeholder="e.g., Work Account, Client A"
+          placeholder="Type to search or create..."
           onChange={(e) => setUserId(e.target.value)}
           className="form-control"
+          autoComplete="off"
         />
+        {/* The datalist connects to the input via the 'list' attribute ID */}
+        <datalist id="saved-profiles-list">
+          {profileKeys.map((key) => (
+            <option key={key} value={key} />
+          ))}
+        </datalist>
       </div>
+      {/* ----------------------------------------------- */}
 
       <FormInput label="Company ID:" name="corpId" value={credentials.corpId} onChange={handleChange} />
       <FormInput label="User ID:" name="userId" value={credentials.userId} onChange={handleChange} />
