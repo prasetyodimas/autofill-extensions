@@ -43,27 +43,28 @@ export const AutofillForm = ({ profiles, profileKeys, onSave, selectors }) => {
       return;
     }
 
-    const chromeRuntime = typeof globalThis !== 'undefined' ? globalThis.chrome?.runtime : undefined;
-
-    if (chromeRuntime?.sendMessage) {
-      chromeRuntime.sendMessage({ 
-        action: 'autofill', 
-        payload: credentials,
-        selectors: selectors,
-        autoLogin: autoLogin
-      }, () => {
-        console.log("Message sent successfully!");
+    if (typeof globalThis.chrome !== 'undefined' && globalThis.chrome.tabs) {
+      globalThis.chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const activeTab = tabs[0];
+        if (activeTab) {
+          globalThis.chrome.tabs.sendMessage(activeTab.id, {
+            action: 'autofill',
+            payload: credentials,
+            selectors: selectors,
+            autoLogin: autoLogin
+          }, () => {
+            window.close();
+          });
+        }
       });
-      window.close();
     } else {
-      console.error('chrome.runtime not available.');
+      console.error('chrome.tabs API not available.');
     }
   };
 
   return (
     <div className="tab-content">
       
-      {/* --- ENHANCED COMBOBOX (Searchable Dropdown) --- */}
       <div className="form-group">
         <label>Profile ID (Search or Create New):</label>
         <input
@@ -75,7 +76,6 @@ export const AutofillForm = ({ profiles, profileKeys, onSave, selectors }) => {
           className="form-control"
           autoComplete="off"
         />
-        {/* The datalist connects to the input via the 'list' attribute ID */}
         <datalist id="saved-profiles-list">
           {profileKeys.map((key) => (
             <option key={key} value={key} />
