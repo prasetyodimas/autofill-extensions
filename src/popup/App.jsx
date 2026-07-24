@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useProfiles } from "@hooks/userProfile";
 import { useSettings } from '@hooks/useSettings';
+import { useEnvironments } from '@hooks/useEnvironments';
 import { Header } from "@components/Header/Header";
 import { AutofillForm } from "@feature/Autofill/AutofillForm";
 import { ManageProfiles } from "@feature/ManageProfiles/ManageProfiles";
@@ -8,8 +9,7 @@ import { SettingsForm } from '@feature/SettingForm/SettingForm';
 import "@styles/extension.css";
 
 function App() {
-  const [activeTab, setActiveTab] = useState('autofill');
-  const { selectors, saveSelectors } = useSettings();
+  const [activeTab, setActiveTab] = useState('manage');
   const { 
     rawProfiles, 
     profileKeys, 
@@ -18,6 +18,8 @@ function App() {
     exportProfiles, 
     importProfiles 
   } = useProfiles();
+  const { selectors, saveSelectors } = useSettings();
+  const { environments, saveEnvironment, deleteEnvironment } = useEnvironments();
 
   return (
     <div className="extension-container">
@@ -59,6 +61,9 @@ function App() {
           onDelete={deleteProfile}
           onExport={exportProfiles}
           onImport={importProfiles}
+          environments={environments}
+          onSaveEnv={saveEnvironment}
+          onDeleteEnv={deleteEnvironment}
         />
       )}
 

@@ -82,7 +82,6 @@ export const AutofillForm = ({ profiles, profileKeys, onSave, selectors }) => {
           ))}
         </datalist>
       </div>
-      {/* ----------------------------------------------- */}
 
       <FormInput label="Company ID:" name="corpId" value={credentials.corpId} onChange={handleChange} />
       <FormInput label="User ID:" name="userId" value={credentials.userId} onChange={handleChange} />

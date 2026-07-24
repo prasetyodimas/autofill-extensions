@@ -1,13 +1,22 @@
 import { useRef } from 'react';
+import { ManageEnv } from '@feature/ManageProfiles/ManageEnv';
 
-export const ManageProfiles = ({ profileKeys, onDelete, onExport, onImport }) => {
+export const ManageProfiles = ({ 
+  profileKeys, 
+  onDelete, 
+  onExport, 
+  onImport, 
+  environments,
+  onSaveEnv,
+  onDeleteEnv,
+}) => {
   const fileInputRef = useRef(null);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       onImport(file, () => {
-        event.target.value = null; // Reset input after success
+        event.target.value = null; 
       });
     }
   };
@@ -47,6 +56,12 @@ export const ManageProfiles = ({ profileKeys, onDelete, onExport, onImport }) =>
           ))}
         </ul>
       )}
+      <ManageEnv 
+        onImport={onImport}
+        environments={environments}
+        onSaveEnv={onSaveEnv} 
+        onDeleteEnv={onDeleteEnv}
+      />
     </div>
   );
 };

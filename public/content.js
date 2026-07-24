@@ -3,14 +3,8 @@
 const chromeApi = globalThis.chrome;
 
 chromeApi?.runtime?.onMessage?.addListener((request, sender, sendResponse) => {
-  console.info(request)
-  console.info(sender)
-  console.info(sendResponse)
   if (request.action === 'autofill') {
     const { payload, selectors, autoLogin } = request;
-    console.log(payload)
-    console.log(selectors)
-    console.log(autoLogin)
 
     const fillInput = (selector, value) => {
       if (!selector || !value) return;
@@ -40,6 +34,7 @@ chromeApi?.runtime?.onMessage?.addListener((request, sender, sendResponse) => {
       }
     }
 
+    console.info(sender)
     sendResponse({ status: 'success' });
 
     return true
